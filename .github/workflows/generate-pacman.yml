@@ -1,0 +1,16 @@
+name: Generate Pac-Man Contribution Graph
+on:
+  schedule:
+    - cron: "0 0 * * *"  # runs every day at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Pac-Man contribution graph
+        uses: yoshi389111/github-contribution-graph-generator@v1.0.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          user_name: Siyumi408
+          theme: "dracula"
