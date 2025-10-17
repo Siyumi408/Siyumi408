@@ -1,25 +1,28 @@
 name: Generate Pac-Man Contribution Graph
+
 on:
   schedule:
-    - cron: "0 0 * * *"  # Runs daily at midnight UTC
+    - cron: "0 0 * * *" # Runs every day at midnight UTC
   workflow_dispatch:
 
 jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-      - name: Generate snake animation (Pac-Man style)
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Generate Pac-Man style snake graph
         uses: Platane/snk@v3
         with:
           github_user_name: Siyumi408
           outputs: |
-            output/pacman-contribution-graph.svg
-            output/pacman-contribution-graph-dark.svg?palette=github-dark
+            dist/pacman-contribution-graph.svg
+            dist/pacman-contribution-graph-dark.svg?palette=github-dark
 
-      - name: Push generated files
-        uses: crazy-max/ghaction-github-pages@v3.1.0
+      - name: Upload generated files to GitHub Pages branch
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          target_branch: output
-          build_dir: output
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist
+          publish_branch: output
